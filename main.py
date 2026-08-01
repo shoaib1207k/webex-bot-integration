@@ -1,6 +1,8 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI, Request, status
 import json
 from pydantic import BaseModel
+
+from bot_script import get_attachment_action
 
 class TicketApprovalRequest(BaseModel):
     message: str
@@ -38,3 +40,16 @@ def send_message(request: TicketApprovalRequest):
     )
 
     return response.json()
+
+
+@app.post("/webhook")
+async def webex_webhook(request: Request):
+    payload = await request.json()
+
+    action_id = payload["data"]["id"]
+
+    response = get_attachment_action(action_id)
+
+    print(json.dumps(response.json(), indent=4))
+    
+    return {"status": "ok"}
