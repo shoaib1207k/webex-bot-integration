@@ -1,0 +1,120 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.3",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "🤖 AI Resolution Approval",
+      "size": "Large",
+      "weight": "Bolder",
+      "color": "Accent"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Please review the AI-generated resolution before execution.",
+      "wrap": true,
+      "spacing": "Small"
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        {
+          "title": "Ticket ID",
+          "value": "{{ticket_id}}"
+        },
+        {
+          "title": "Title",
+          "value": "{{title}}"
+        },
+        {
+          "title": "Priority",
+          "value": "{{priority}}"
+        },
+        {
+          "title": "Status",
+          "value": "{{status}}"
+        },
+        {
+          "title": "Confidence",
+          "value": "{{confidence}}%"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "### AI Analysis",
+      "weight": "Bolder",
+      "spacing": "Medium"
+    },
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "{{analysis}}",
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "### Proposed Resolution",
+      "weight": "Bolder",
+      "spacing": "Medium"
+    },
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "{{resolution}}",
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "### Planned Actions",
+      "weight": "Bolder",
+      "spacing": "Medium"
+    },
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "{{execution_plan}}",
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "Input.Text",
+      "id": "reviewComments",
+      "placeholder": "Optional comments...",
+      "isMultiline": true
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "✅ Approve",
+      "data": {
+        "action": "approve",
+        "ticketId": "{{ticket_id}}"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "❌ Reject",
+      "data": {
+        "action": "reject",
+        "ticketId": "{{ticket_id}}"
+      }
+    }
+  ]
+}
