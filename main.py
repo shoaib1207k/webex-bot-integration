@@ -1,9 +1,13 @@
 from fastapi import FastAPI, Request, status
 import json
 from pydantic import BaseModel
-
+import os
+from dotenv import load_dotenv
 from bot_script import get_attachment_action
 
+load_dotenv()
+
+RECPIENT_EMAIL = os.getenv("RECPIENT_EMAIL")
 class TicketApprovalRequest(BaseModel):
     message: str
     ticket_id: str
@@ -27,7 +31,7 @@ def read_root():
 def send_message(request: TicketApprovalRequest):
     from bot_script import send_approval_request, get_person_id
 
-    email = "shoaib12dev@gmail.com"
+    email = RECPIENT_EMAIL
     person_id = get_person_id(email)
 
     if not person_id:
