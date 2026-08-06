@@ -43,7 +43,7 @@ This project lets you:
 3. Start the FastAPI app:
 
    ```bash
-   uv run fastapi dev main.py
+   uv run fastapi dev main.py --host 0.0.0.0 --port 8000
    ```
 
 ## API endpoints
@@ -83,15 +83,33 @@ Receives Webex attachment action webhook events and prints the response payload.
 
 ## Webhook setup
 
-Before using the webhook flow, update [create_webhook.py](create_webhook.py) with a reachable public URL for your app.
+Webex must be able to reach the local FastAPI application's `/webhook` endpoint. Use `localhost.run` to create a public HTTPS tunnel to the app running on port `8000`.
 
-Run:
+1. In a separate terminal, from the project directory, create the tunnel:
+
+   ```bash
+   ssh -R 80:localhost:8000 localhost.run
+   ```
+
+2. Leave the SSH session running. It prints a public URL similar to `https://example.lhr.life`. Copy this URL.
+
+3. Update [create_webhook.py](create_webhook.py) with the copied tunnel URL followed by `/webhook`:
+
+   ```python
+   response = create_webhook(
+       "https://example.lhr.life/webhook"
+   )
+   ```
+
+   The `https://` scheme and `/webhook` path are both required.
+
+4. Create the Webex webhook:
 
 ```bash
 uv run python create_webhook.py
 ```
 
-This creates a Webex webhook for `attachmentActions` events.
+This creates a Webex webhook for `attachmentActions` events. Keep both the FastAPI server and the tunnel running while testing card actions. `localhost.run` URLs can change when a new tunnel is created, so update the webhook callback URL and recreate the Webex webhook when that happens.
 
 ## Notes
 

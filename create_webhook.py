@@ -1,5 +1,6 @@
 from bot_script import create_webhook
 
 response = create_webhook(
-    "https://rich-theaters-stolen-triple.trycloudflare.com/webhook"
+    "https://c6080771904b9f.lhr.life/webhook"
 )
+print(response.json())
